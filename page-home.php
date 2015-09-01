@@ -24,14 +24,17 @@ $reason_1_description   = get_field('reason_1_description');
 $reason_2_title         = get_field('reason_2_title');
 $reason_2_description   = get_field('reason_2_description');
 
-
 $who_imag = get_field('who_imag');
 $who_section_title = get_field('who_section_title');
 $who_section_body = get_field('who_section_body');
 
+$features_section_image = get_field('features_section_image');
+$feature_section_title = get_field('feature_section_title');
+$feature_section_body = get_field('feature_section_body');
+
+
 get_header(); ?>
 
-	
     <!--HERO 
     ================================================================================== -->    
     <section id="hero" data-type="background" data-speed="5">
@@ -154,39 +157,30 @@ get_header(); ?>
     <section id="course-features">
         <div class="container">
         <div class="section-header">
-            <img src="<?php bloginfo(stylesheet_directory) ?>/assets/img/icon-rocket.png" alt="rocet">
-            <h2>Course Features</h2>
+             <!-- If user uploaded an image -->
+                    <?php 
+                        if(!empty($features_section_image)) : ?>                  
+                        <img src="<?php echo $features_section_image['url']; ?>" alt="<?php echo $features_section_image['alt']; ?>">   
+                  <?php endif; ?> 
+
+            <h2><?php echo $feature_section_title; ?></h2>
+
+            <!-- If user added body text -->
+            <?php if ( !empty($feature_section_body) ) : ?>
+            <p class="lead"><?php echo $feature_section_body; ?></p>
+             <?php endif; ?>
+
         </div>
         
-            <div class="row">
+        <div class="row">
+            <?php $loop = new WP_Query( array('post_type' => 'course_feature', 'orderby' => 'post_id', 'order' => 'ASC') ); ?>
+                <?php while ($loop->have_posts() ) : $loop->the_post(); ?>
                 <div class="col-sm-2">
-                    <i class="ci ci-computer"></i>
-                    <h4>Lifetime access to 80+ lectures</h4>              
+                    <i class="<?php the_field('course_feature_icon'); ?>"></i>
+                    <h4><?php the_title(); ?></h4>              
                 </div><!-- end col -->
-                <div class="col-sm-2">
-                    <i class="ci ci-watch"></i>
-                    <h4>10+ hours of HD video content</h4>              
-                </div><!-- end col -->
-                 <div class="col-sm-2">
-                    <i class="ci ci-calendar"></i>
-                    <h4>30-day money back guarantee</h4>              
-                </div><!-- end col -->
-                <div class="col-sm-2">
-                    <i class="ci ci-community"></i>
-                    <h4>Access to a community of like-minded students</h4>              
-                </div><!-- end col -->
-                <div class="col-sm-2">
-                    <i class="ci ci-instructor"></i>
-                    <h4>Direct access to the instructor</h4>              
-                </div><!-- end col -->
-                <div class="col-sm-2">
-                    <i class="ci ci-device"></i>
-                    <h4>Accessible content on your mobile devices</h4>              
-                </div><!-- end col -->
-           
-            </div>
-            
-            
+            <?php endwhile; ?> <!-- End While Loop for Course Feature Posts -->              
+            </div>                     
         </div><!-- Container -->    
     </section>
     

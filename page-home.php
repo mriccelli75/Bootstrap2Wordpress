@@ -32,6 +32,11 @@ $features_section_image = get_field('features_section_image');
 $feature_section_title = get_field('feature_section_title');
 $feature_section_body = get_field('feature_section_body');
 
+$project_feature_title = get_field('project_feature_title');
+$project_feature_body = get_field('project_feature_body');
+
+
+
 
 get_header(); ?>
 
@@ -189,27 +194,19 @@ get_header(); ?>
     ================================================================================== -->   
     <section id="project-features">
         <div class="container">
-            <h2>Final Project Features</h2>
-            <p class="lead">Throughout this entire course, you work towards building an incredibly beautiful website. Want to see the website you are going to build? You're looking at it! The website you're using right now is the website you will have built entirely by yourself, by the end of this course.</p>
-            
+            <h2><?php echo $project_feature_title; ?></h2>
+            <p class="lead"><?php echo $project_feature_body; ?></p>         
             <div class="row">
-                <div class="col-sm-4"> 
+                <?php $loop = new WP_Query( array('post_type' => 'project_feature', 'orderby' => 'post_id', 'order' => 'ASC') ); ?>
+                <?php while ($loop->have_posts() ) : $loop->the_post(); ?>
+                 <div class="col-sm-4"> 
                     <img src="<?php bloginfo(stylesheet_directory) ?>/assets/img/icon-design.png" alt="Design">
                     <h3>Sexy & Modern Design</h3>  
                     <p>You get to work with a modern, professional quality design & layout.
 </p>
                 </div><!-- end col -->
-                <div class="col-sm-4"> 
-                    <img src="<?php bloginfo(stylesheet_directory) ?>/assets/img/icon-code.png" alt="Design">
-                    <h3>Quality HTML5 &amp; CSS3</h3>  
-                      <p>You'll learn how hand-craft a stunning website with valid, semantic and beautiful HTML5 & CSS3.
-</p>
-                </div><!-- end col -->
-                <div class="col-sm-4"> 
-                    <img src="<?php bloginfo(stylesheet_directory) ?>/assets/img/icon-design.png" alt="Design">
-                    <h3>Easy-to-use CMS</h3>   
-                      <p>Allow your clients to easily update their websites by converting your static websites to dynamic websites, using WordPress.</p>
-                </div><!-- end col -->            
+            <?php endwhile; ?> <!-- End While Loop for Course Feature Posts -->              
+                         
             </div>
         </div>
     
